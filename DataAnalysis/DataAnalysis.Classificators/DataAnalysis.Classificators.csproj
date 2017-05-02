@@ -40,7 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\ClassificatingObjectModel.cs" />
+    <Compile Include="IClassificator.cs" />
+    <Compile Include="KNearestNeighborsClassificator.cs" />
     <Compile Include="SupportVectorMachineClassificator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

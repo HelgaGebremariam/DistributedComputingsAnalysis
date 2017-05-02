@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace DataAnalysis.Classificators
 {
-    public class SupportVectorMachineClassificator
+    public class SupportVectorMachineClassificator : IClassificator
     {
+	    public Dictionary<double[], int> Classificate(IEnumerable<double[]> inputVectors)
+	    {
+		    throw new NotImplementedException();
+	    }
     }
 }
