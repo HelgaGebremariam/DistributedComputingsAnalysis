@@ -33,7 +33,7 @@ namespace DataAnalysis.Classificators
                 var testObject = new double[dimension];
                 for (int j = 0; j < dimension; j++)
                 {
-                    testObject[j] = randomGenerator.NextDouble() / double.MaxValue;
+                    testObject[j] = (double)randomGenerator.Next() / int.MaxValue;
                 }
                 var testObjectClass = randomGenerator.Next() % 2 > 0;
                 testData.Add(testObject, testObjectClass);

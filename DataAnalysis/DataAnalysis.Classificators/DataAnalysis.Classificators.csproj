@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassificatorAnalyzer.cs" />
+    <Compile Include="DataGenerator.cs" />
     <Compile Include="IClassificator.cs" />
     <Compile Include="KNearestNeighborsClassificator.cs" />
     <Compile Include="NaiveBayesClassificator.cs" />

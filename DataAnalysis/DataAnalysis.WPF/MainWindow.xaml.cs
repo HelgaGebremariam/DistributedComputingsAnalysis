@@ -13,8 +13,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using DataAnalysis.Classificators;
 using DataAnalysis.DataLoading;
 using Microsoft.Win32;
+using System.Drawing;
+using System.Windows.Controls.DataVisualization.Charting;
 
 namespace DataAnalysis.WPF
 {
@@ -64,5 +67,35 @@ namespace DataAnalysis.WPF
 
 		
 		}
-	}
+
+	    private void DrawRockCurvePositive(IEnumerable<System.Drawing.Point> points)
+	    {
+	        var dataPoints = new PointCollection();
+	        foreach (var point in points)
+	        {
+	            dataPoints.Add(new System.Windows.Point(point.X, point.Y));
+	        }
+            ChartRockCurvePositive.DataContext = dataPoints;
+	    }
+
+	    private void DrawRockCurveNegative(IEnumerable<System.Drawing.Point> points)
+	    {
+	        var dataPoints = new PointCollection();
+	        foreach (var point in points)
+	        {
+	            dataPoints.Add(new System.Windows.Point(point.X, point.Y));
+	        }
+	        ChartRockCurveNegative.DataContext = dataPoints;
+	    }
+
+        private void ButtonGenerate_Click(object sender, RoutedEventArgs e)
+        {
+            var classificator = new KNearestNeighborsClassificator();
+            var testData = DataGenerator.GenerateTeachingData(3, 10);
+            classificator.Teach(testData);
+            var analyzer = new ClassificatorAnalyzer(classificator, testData);
+            DrawRockCurveNegative(analyzer.GetRocCurveNegative());
+            DrawRockCurvePositive(analyzer.GetRocCurvePositive());
+        }
+    }
 }
