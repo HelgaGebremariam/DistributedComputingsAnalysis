@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace DataAnalysis.Classificators
 {
@@ -178,5 +179,50 @@ namespace DataAnalysis.Classificators
             }
             return testData;
         }
+
+        public IEnumerable<Point> GetRocCurvePositive()
+        {
+            var result = new List<Point>();
+            var currentPosition = new Point(0, 0);
+            foreach (var classifiedObject in _classifiedObjects.Where(s=>s.ClassifiedValue == true))
+            {
+                var x = currentPosition.X;
+                var y = currentPosition.Y;
+                if (classifiedObject.ActualClass)
+                {
+                    y++;
+                }
+                else
+                {
+                    x++;
+                }
+                currentPosition = new Point(x, y);
+                result.Add(currentPosition);
+            }
+            return result;
+        }
+
+        public IEnumerable<Point> GetRocCurveNegative()
+        {
+            var result = new List<Point>();
+            var currentPosition = new Point(0, 0);
+            foreach (var classifiedObject in _classifiedObjects.Where(s=>s.ClassifiedValue == false))
+            {
+                var x = currentPosition.X;
+                var y = currentPosition.Y;
+                if (classifiedObject.ActualClass == false)
+                {
+                    y++;
+                }
+                else
+                {
+                    x++;
+                }
+                currentPosition = new Point(x, y);
+                result.Add(currentPosition);
+            }
+            return result;
+        }
+
     }
 }
