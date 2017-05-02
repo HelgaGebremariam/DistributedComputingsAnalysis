@@ -12,5 +12,10 @@ namespace DataAnalysis.Classificators
 		{
 			throw new NotImplementedException();
 		}
-	}
+
+        public void Teach(Dictionary<double[], int> inputVectors)
+        {
+
+        }
+    }
 }
