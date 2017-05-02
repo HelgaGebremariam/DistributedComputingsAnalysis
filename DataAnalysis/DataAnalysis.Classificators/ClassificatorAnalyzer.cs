@@ -134,6 +134,20 @@ namespace DataAnalysis.Classificators
             }
         }
 
+        private double _fMeasure = 0;
+
+        public double FMeasure
+        {
+            get
+            {
+                if (_fMeasure == 0)
+                {
+                    _fMeasure = (2 * Precision * Recall) / (Precision + Recall);
+                }
+                return _fMeasure;
+            }
+        }
+
         public ClassificatorAnalyzer(IClassificator classificator, Dictionary<double[], bool> testVectors)
         {
             _classificator = classificator;
