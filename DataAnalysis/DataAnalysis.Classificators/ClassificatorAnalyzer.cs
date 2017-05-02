@@ -152,6 +152,7 @@ namespace DataAnalysis.Classificators
         public ClassificatorAnalyzer(IClassificator classificator, Dictionary<double[], bool> testVectors)
         {
             _classificator = classificator;
+
             _classifiedObjects = new List<ClassifiedObject>();
             foreach (var testVector in testVectors)
             {
@@ -162,22 +163,6 @@ namespace DataAnalysis.Classificators
                     ClassifiedValue = _classificator.Classificate(testVector.Key)
                 });
             }
-        }
-
-        public static IEnumerable<double[]> GenerateTestData(int dimension, int objectsNumber)
-        {
-            var testData = new List<double[]>();
-            var randomGenerator = new Random();
-            for (int i = 0; i < objectsNumber; i++)
-            {
-                var testObject = new double[dimension];
-                for (int j = 0; j < dimension; j++)
-                {
-                    testObject[j] = randomGenerator.NextDouble() / double.MaxValue;
-                }
-                testData.Add(testObject);
-            }
-            return testData;
         }
 
         public IEnumerable<Point> GetRocCurvePositive()
@@ -223,6 +208,5 @@ namespace DataAnalysis.Classificators
             }
             return result;
         }
-
     }
 }
