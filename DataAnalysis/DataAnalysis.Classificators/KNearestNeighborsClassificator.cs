@@ -8,7 +8,7 @@ namespace DataAnalysis.Classificators
 {
 	public class KNearestNeighborsClassificator : IClassificator
 	{
-	    private Dictionary<int, double[]> _standards;
+	    private Dictionary<bool, double[]> _standards;
 
 	    private static double GetEuclideanDistance(double[] vector1, double[] vector2)
 	    {
@@ -28,27 +28,31 @@ namespace DataAnalysis.Classificators
 	        return Math.Sqrt(result);
 	    }
 
-	    public Dictionary<double[], int> Classificate(IEnumerable<double[]> inputVectors)
+	    public Dictionary<double[], bool> Classificate(IEnumerable<double[]> inputVectors)
 	    {
 	        if (_standards == null || !_standards.Any())
 	            throw new InvalidOperationException();
 	        if (inputVectors == null || !inputVectors.Any())
 	            throw new ArgumentException();
 
-	        var result = new Dictionary<double[], int>();
+	        var result = new Dictionary<double[], bool>();
 	        foreach (var inputVector in inputVectors)
 	        {
-	            var minDistance = _standards.Min(d => GetEuclideanDistance(d.Value, inputVector));
-	            var vectorClass = _standards.Where(s => GetEuclideanDistance(s.Value, inputVector) <= minDistance).Select(s => s.Key).FirstOrDefault();
-	            result.Add(inputVector, vectorClass);
+	            result.Add(inputVector, Classificate(inputVector));
 	        }
 
 	        return result;
 	    }
 
-	    public void Teach(Dictionary<double[], int> inputVectors)
+	    public bool Classificate(double[] inputVector)
 	    {
-	        _standards = new Dictionary<int, double[]>();
+	        var minDistance = _standards.Min(d => GetEuclideanDistance(d.Value, inputVector));
+	        return _standards.Where(s => GetEuclideanDistance(s.Value, inputVector) <= minDistance).Select(s => s.Key).FirstOrDefault();
+        }
+
+	    public void Teach(Dictionary<double[], bool> inputVectors)
+	    {
+	        _standards = new Dictionary<bool, double[]>();
 
 	        var groups = inputVectors.GroupBy(g => g.Value);
 	        var dimension = inputVectors.First().Key.Length;

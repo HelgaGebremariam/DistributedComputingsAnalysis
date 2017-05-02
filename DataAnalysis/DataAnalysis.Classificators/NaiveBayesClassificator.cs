@@ -10,12 +10,17 @@ namespace DataAnalysis.Classificators
     {
 
 
-        public Dictionary<double[], int> Classificate(IEnumerable<double[]> inputVectors)
+        public Dictionary<double[], bool> Classificate(IEnumerable<double[]> inputVectors)
         {
             throw new NotImplementedException();
         }
 
-        public void Teach(Dictionary<double[], int> inputVectors)
+        public bool Classificate(double[] inputVector)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Teach(Dictionary<double[], bool> inputVectors)
         {
 
         }

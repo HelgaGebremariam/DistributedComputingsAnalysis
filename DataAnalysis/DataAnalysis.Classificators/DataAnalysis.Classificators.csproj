@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassificatorAnalyzer.cs" />
     <Compile Include="IClassificator.cs" />
     <Compile Include="KNearestNeighborsClassificator.cs" />
     <Compile Include="NaiveBayesClassificator.cs" />

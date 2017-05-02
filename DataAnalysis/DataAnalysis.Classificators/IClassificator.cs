@@ -8,7 +8,8 @@ namespace DataAnalysis.Classificators
 {
 	public interface IClassificator
 	{
-		Dictionary<double[], int> Classificate(IEnumerable<double[]> inputVectors);
-        void Teach(Dictionary<double[], int> inputVectors);
+		Dictionary<double[], bool> Classificate(IEnumerable<double[]> inputVectors);
+	    bool Classificate(double[] inputVector);
+        void Teach(Dictionary<double[], bool> inputVectors);
     }
 }
