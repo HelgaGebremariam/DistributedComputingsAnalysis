@@ -36,7 +36,7 @@ namespace DataAnalysis.Classificators
 	        foreach (var inputVector in inputVectors)
 	        {
 	            var minDistance = _standards.Min(d => GetEuclideanDistance(d.Value, inputVector));
-	            var vectorClass = _standards.Where(s => GetEuclideanDistance(s.Value, inputVector) == minDistance).Select(s=>s.Key).FirstOrDefault();
+	            var vectorClass = _standards.Where(s => GetEuclideanDistance(s.Value, inputVector) <= minDistance).Select(s=>s.Key).FirstOrDefault();
                 result.Add(inputVector, vectorClass);
 	        }
 	        return result;
