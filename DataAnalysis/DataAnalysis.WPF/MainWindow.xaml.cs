@@ -43,7 +43,7 @@ namespace DataAnalysis.WPF
 			if (openFileDialog.ShowDialog() == true)
 			{
 				LoadDataFromFile(openFileDialog.FileName);
-				FillDataGrid();
+				FillDataChart(_sourceObjects);
 			}
 		}
 
@@ -53,18 +53,15 @@ namespace DataAnalysis.WPF
 			_sourceObjects = _dataLoader.GetSourceObjectsFromStream(stream);
 		}
 
-		private void FillDataGrid()
+		private void FillDataChart(IEnumerable<double[]> data)
 		{
-			var dimensions = _sourceObjects.First().Length;
-			for (int i = 0; i < dimensions; i++)
-			{
-				var column = new DataGridTextColumn {Binding = new Binding($"[{i}]")};
-				DataGridSourceVectors.Columns.Add(column);
-			}
-			foreach (var sourceObject in _sourceObjects)
-			{
-				DataGridSourceVectors.Items.Add(sourceObject);
-			}
+
+		    var dataPoints = new PointCollection();
+            for (int i = 0; i < data.Count(); i++)
+		    {
+		        dataPoints.Add(new System.Windows.Point(data.ElementAt(i)[0], data.ElementAt(i)[1]));
+            }
+		    ChartTestData.DataContext = dataPoints;
 		}
 
 	    private void DrawRockCurvePositive(IEnumerable<System.Drawing.Point> points)
@@ -90,8 +87,9 @@ namespace DataAnalysis.WPF
         private void ButtonGenerate_Click(object sender, RoutedEventArgs e)
         {
             var classificator = new KNearestNeighborsClassificator();
-            var testData = DataGenerator.GenerateTeachingData(3, 100);
+            var testData = DataGenerator.GenerateTeachingData(2, 100, data=>4*data[1] + 5*data[0] >= 5);
             classificator.Teach(testData);
+            FillDataChart(testData.Select(s=>s.Key));
             var analyzer = new ClassificatorAnalyzer(classificator, testData);
             DrawRockCurveNegative(analyzer.GetRocCurveNegative());
             DrawRockCurvePositive(analyzer.GetRocCurvePositive());

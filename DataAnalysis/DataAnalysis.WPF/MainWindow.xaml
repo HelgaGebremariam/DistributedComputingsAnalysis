@@ -9,22 +9,19 @@
         Title="MainWindow" Height="800" Width="1000">
     <Grid>
         <Button x:Name="ButtonOpen" Content="Open" HorizontalAlignment="Left" Margin="846,590,0,0" VerticalAlignment="Top" Width="75" Click="buttonOpen_Click"/>
-        <ScrollViewer HorizontalAlignment="Left" Height="85" Margin="73,31,0,0" VerticalAlignment="Top" Width="223">
-            <DataGrid x:Name="DataGridSourceVectors" HorizontalAlignment="Left" VerticalAlignment="Top" Height="174" Width="634"/>
-        </ScrollViewer>
-        <chartingToolkit:Chart x:Name="ChartRockCurvePositive" HorizontalAlignment="Left" Margin="73,365,0,0" Title="Rock curve positive" VerticalAlignment="Top" Height="196" Width="543">
+        <chartingToolkit:Chart x:Name="ChartRockCurvePositive" HorizontalAlignment="Left" Margin="59,445,0,0" Title="Rock curve positive" VerticalAlignment="Top" Height="196" Width="543">
             <chartingToolkit:Chart.DataContext>
                 <PointCollection>0,0</PointCollection>
             </chartingToolkit:Chart.DataContext>
             <chartingToolkit:LineSeries DependentValuePath="X" IndependentValuePath="Y" ItemsSource="{Binding}"/>
         </chartingToolkit:Chart>
-        <chartingToolkit:Chart x:Name="ChartRockCurveNegative" HorizontalAlignment="Left" Margin="73,148,0,0" Title="Rock curve negative" VerticalAlignment="Top" Height="212" Width="543">
+        <chartingToolkit:Chart x:Name="ChartRockCurveNegative" HorizontalAlignment="Left" Margin="59,228,0,0" Title="Rock curve negative" VerticalAlignment="Top" Height="212" Width="543">
             <chartingToolkit:Chart.DataContext>
                 <PointCollection>0,0</PointCollection>
             </chartingToolkit:Chart.DataContext>
             <chartingToolkit:LineSeries DependentValuePath="X" IndependentValuePath="Y" ItemsSource="{Binding}" Margin="-0.4,10,0.8,-10.6"/>
         </chartingToolkit:Chart>
-        <Button x:Name="ButtonGenerate" Content="Generate" HorizontalAlignment="Left" Margin="258,590,0,0" VerticalAlignment="Top" Width="75" Click="ButtonGenerate_Click"/>
+        <Button x:Name="ButtonGenerate" Content="Generate" HorizontalAlignment="Left" Margin="244,670,0,0" VerticalAlignment="Top" Width="75" Click="ButtonGenerate_Click"/>
         <TextBox x:Name="TextBoxFp" HorizontalAlignment="Left" Height="23" Margin="818,98,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="TextBoxFn" HorizontalAlignment="Left" Height="23" Margin="818,148,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="TextBoxPrecision" HorizontalAlignment="Left" Height="23" Margin="818,205,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
@@ -35,5 +32,11 @@
         <Label x:Name="LabelRecall" Content="Recall" HorizontalAlignment="Left" Margin="731,257,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="TextBoxFMeasure" HorizontalAlignment="Left" Height="23" Margin="818,310,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="LabelFMeasure" Content="F-measure" HorizontalAlignment="Left" Margin="731,307,0,0" VerticalAlignment="Top"/>
+        <chartingToolkit:Chart x:Name="ChartTestData" HorizontalAlignment="Left" Margin="59,11,0,0" Title="Test Data" VerticalAlignment="Top" Height="212" Width="543">
+            <chartingToolkit:Chart.DataContext>
+                <PointCollection>0,0</PointCollection>
+            </chartingToolkit:Chart.DataContext>
+            <chartingToolkit:BubbleSeries DependentValuePath="X" IndependentValuePath="Y" ItemsSource="{Binding}" Margin="-0.4,10,0.8,-10.6"/>
+        </chartingToolkit:Chart>
     </Grid>
 </Window>

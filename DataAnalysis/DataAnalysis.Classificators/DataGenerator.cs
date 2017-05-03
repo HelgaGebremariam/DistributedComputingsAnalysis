@@ -24,7 +24,7 @@ namespace DataAnalysis.Classificators
             return testData;
         }
 
-        public static Dictionary<double[], bool> GenerateTeachingData(int dimension, int objectsNumber)
+        public static Dictionary<double[], bool> GenerateTeachingData(int dimension, int objectsNumber, Func<double[], bool> classificationFunction)
         {
             var testData = new Dictionary<double[], bool>();
             var randomGenerator = new Random();
@@ -35,7 +35,7 @@ namespace DataAnalysis.Classificators
                 {
                     testObject[j] = (double)randomGenerator.Next() / int.MaxValue;
                 }
-                var testObjectClass = randomGenerator.Next() % 2 > 0;
+                var testObjectClass = classificationFunction(testObject);
                 testData.Add(testObject, testObjectClass);
             }
             return testData;

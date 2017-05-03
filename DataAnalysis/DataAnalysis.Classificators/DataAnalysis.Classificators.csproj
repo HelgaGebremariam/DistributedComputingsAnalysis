@@ -45,7 +45,7 @@
     <Compile Include="DataGenerator.cs" />
     <Compile Include="IClassificator.cs" />
     <Compile Include="KNearestNeighborsClassificator.cs" />
-    <Compile Include="NaiveBayesClassificator.cs" />
+    <Compile Include="SupportVectorMachineClassificator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

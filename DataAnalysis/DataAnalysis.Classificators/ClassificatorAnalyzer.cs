@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Security.Cryptography.X509Certificates;
 
 namespace DataAnalysis.Classificators
 {
@@ -154,6 +155,33 @@ namespace DataAnalysis.Classificators
             _classificator = classificator;
 
             _classifiedObjects = new List<ClassifiedObject>();
+
+            CrossValidationTeachAndClassificate(testVectors, 5);
+        }
+
+        private void CrossValidationTeachAndClassificate(Dictionary<double[], bool> testVectors, int groupsNumber)
+        {
+            int vectorsInGroup = (int)((double)testVectors.Count / groupsNumber);
+            for (int i = 0; i < groupsNumber; i++)
+            {
+                var testVectorsFrom = i * vectorsInGroup;
+                var testVectorsTo = (i * vectorsInGroup) + vectorsInGroup;
+
+                var teachingVectors = testVectors.Skip(testVectorsFrom).Take(vectorsInGroup).ToDictionary(x => x.Key, x => x.Value);
+
+                var checkVectors = testVectors.Take(testVectorsFrom).ToDictionary(x => x.Key, x => x.Value);
+                foreach (var element in testVectors.Skip(testVectorsTo))
+                {
+                    checkVectors.Add(element.Key, element.Value);
+                }
+                _classificator.Teach(teachingVectors);
+                Classificate(checkVectors);
+
+            }
+        }
+
+        private void Classificate(Dictionary<double[], bool> testVectors)
+        {
             foreach (var testVector in testVectors)
             {
                 _classifiedObjects.Add(new ClassifiedObject()
@@ -167,45 +195,37 @@ namespace DataAnalysis.Classificators
 
         public IEnumerable<Point> GetRocCurvePositive()
         {
-            var result = new List<Point>();
-            var currentPosition = new Point(0, 0);
-            foreach (var classifiedObject in _classifiedObjects.Where(s=>s.ClassifiedValue == true))
-            {
-                var x = currentPosition.X;
-                var y = currentPosition.Y;
-                if (classifiedObject.ActualClass)
-                {
-                    y++;
-                }
-                else
-                {
-                    x++;
-                }
-                currentPosition = new Point(x, y);
-                result.Add(currentPosition);
-            }
-            return result;
+            return GetRocCurve(true);
         }
 
         public IEnumerable<Point> GetRocCurveNegative()
         {
+            return GetRocCurve(false);
+        }
+
+        private IEnumerable<Point> GetRocCurve(bool isPositive)
+        {
             var result = new List<Point>();
             var currentPosition = new Point(0, 0);
-            foreach (var classifiedObject in _classifiedObjects.Where(s=>s.ClassifiedValue == false))
+            result.Add(currentPosition);
+            var pointsNumber = _classifiedObjects.Count(s => s.ClassifiedValue == isPositive);
+            foreach (var classifiedObject in _classifiedObjects.Where(s => s.ClassifiedValue == isPositive))
             {
                 var x = currentPosition.X;
                 var y = currentPosition.Y;
-                if (classifiedObject.ActualClass == false)
+                if (classifiedObject.ActualClass == isPositive)
                 {
-                    y++;
+                    x++;
                 }
                 else
                 {
-                    x++;
+                    y++;
                 }
                 currentPosition = new Point(x, y);
                 result.Add(currentPosition);
             }
+            currentPosition = new Point(pointsNumber, pointsNumber);
+            result.Add(currentPosition);
             return result;
         }
     }

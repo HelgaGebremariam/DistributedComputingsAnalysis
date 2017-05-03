@@ -6,13 +6,22 @@ using System.Threading.Tasks;
 
 namespace DataAnalysis.Classificators
 {
-    public class NaiveBayesClassificator : IClassificator
+    public class SupportVectorMachineClassificator : IClassificator
     {
 
 
         public Dictionary<double[], bool> Classificate(IEnumerable<double[]> inputVectors)
         {
-            throw new NotImplementedException();
+            if (inputVectors == null || !inputVectors.Any())
+                throw new ArgumentException();
+
+            var result = new Dictionary<double[], bool>();
+            foreach (var inputVector in inputVectors)
+            {
+                result.Add(inputVector, Classificate(inputVector));
+            }
+
+            return result;
         }
 
         public bool Classificate(double[] inputVector)
