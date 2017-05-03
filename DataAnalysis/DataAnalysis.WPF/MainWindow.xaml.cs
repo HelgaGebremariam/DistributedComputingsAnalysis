@@ -17,6 +17,7 @@ using DataAnalysis.Classificators;
 using DataAnalysis.DataLoading;
 using Microsoft.Win32;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Controls.DataVisualization.Charting;
 
 namespace DataAnalysis.WPF
@@ -64,8 +65,6 @@ namespace DataAnalysis.WPF
 			{
 				DataGridSourceVectors.Items.Add(sourceObject);
 			}
-
-		
 		}
 
 	    private void DrawRockCurvePositive(IEnumerable<System.Drawing.Point> points)
@@ -91,11 +90,16 @@ namespace DataAnalysis.WPF
         private void ButtonGenerate_Click(object sender, RoutedEventArgs e)
         {
             var classificator = new KNearestNeighborsClassificator();
-            var testData = DataGenerator.GenerateTeachingData(3, 10);
+            var testData = DataGenerator.GenerateTeachingData(3, 100);
             classificator.Teach(testData);
             var analyzer = new ClassificatorAnalyzer(classificator, testData);
             DrawRockCurveNegative(analyzer.GetRocCurveNegative());
             DrawRockCurvePositive(analyzer.GetRocCurvePositive());
+            TextBoxFn.Text = analyzer.FalseNegative.ToString();
+            TextBoxFp.Text = analyzer.FalsePositive.ToString();
+            TextBoxPrecision.Text = analyzer.Precision.ToString(CultureInfo.InvariantCulture);
+            TextBoxRecall.Text = analyzer.Recall.ToString(CultureInfo.InvariantCulture);
+            TextBoxFMeasure.Text = analyzer.FMeasure.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

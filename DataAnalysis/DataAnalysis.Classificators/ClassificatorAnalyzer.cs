@@ -25,7 +25,7 @@ namespace DataAnalysis.Classificators
             get
             {
                 if(_falseNegative == 0)
-                    _falseNegative = _classifiedObjects.Count(s => s.ActualClass == false && s.ClassifiedValue);
+                    _falseNegative = _classifiedObjects.Count(s => s.ActualClass && s.ClassifiedValue == false);
                 return _falseNegative;
             }
         }
